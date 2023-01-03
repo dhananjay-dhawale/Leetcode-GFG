@@ -1,6 +1,6 @@
 class Solution {
 public:
-    unordered_map<Node*,Node*> mp;
+    map<Node*,Node*> mp;
     void  dfs(Node* node){
         Node* copy = new Node(node->val);
         mp[node] = copy;
