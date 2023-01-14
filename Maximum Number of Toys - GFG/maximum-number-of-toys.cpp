@@ -21,18 +21,10 @@ public:
           idx[v[i].second] = i;
           pref[i] += pref[i - 1] + v[i].first;
       }
-    //   for(long i = 1; i <= N; i++) {
-    //       cout << v[i].first << " " << v[i].second << "  ";
-    //   }
-    //   cout << "\n";
       for(auto i : Queries) {
-          long cost = i[0];
-          long size = i[1];
+          long cost = i[0], size = i[1];
           long limit  = (upper_bound(pref.begin(), pref.end(), cost) - pref.begin()) - 1;
-          long ans = limit;
-          long add = 0;
-          long spent = pref[limit];
-          //cout << limit << " " << ans << " " << spent << "\n";
+          long ans = limit, add = 0, spent = pref[limit];
           sort(i.begin() + 2, i.end());
           set <long> bad;
           for(long j = 0; j < size; j++) {
@@ -42,19 +34,15 @@ public:
               while(limit + add + 1 <= N && bad.find(v[limit + add + 1].second) != bad.end()) {
                   add += 1;
               }
-              //cout << add << " " << v[limit + add + 1].second << "\n";
               if(idx[i[2 + j]] <= limit) {
                   ans -= 1;
                   spent -= v[idx[i[2 + j]]].first;
-                  //cout << ans << " " << spent << " " << i[2 + j] << " " << idx[i[2 + j]] << " o\n";
                   if(limit + add +  1 <= N && A[v[limit + add + 1].second - 1] + spent <= cost) {
-                      //cout << limit + add << " " << A[v[limit + add + 1].second - 1] << " " << v[limit + add + 1].second << " i\n";
                       spent += A[v[limit + add + 1].second - 1];
                       add += 1;
                       ans += 1;
                   }
               }
-              //cout << ans << " " << spent << " " << i[2 + j] << "\n";
           }
           res.push_back(ans);
       }
