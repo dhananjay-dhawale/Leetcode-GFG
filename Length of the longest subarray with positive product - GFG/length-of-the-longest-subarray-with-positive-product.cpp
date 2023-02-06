@@ -17,34 +17,24 @@ class Solution {
         int maxLength(vector<int> &arr,int n){
             int i = 0, ans = 0;
             while(i < n) {
-                int pos = 0, neg = 0, j = i;
+                int pos = 0, neg = 0, j = i, first_neg = -1, last_neg = -1;
                 while(i < n && arr[i]) {
                     pos += arr[i] > 0;
-                    neg += arr[i] < 0;
+                    if(arr[i] < 0) {
+                        neg += 1;
+                        if(first_neg == -1) {
+                            first_neg = i;
+                        }
+                        last_neg = i;
+                    }
                     i += 1;
                 }
-                if(pos || neg) {
-                    int len = pos + neg;
-                    if(neg % 2) {
-                        int k = j, c = 0;
-                        while(k < n && arr[k] > 0) {
-                            c += 1;
-                            k += 1;
-                        }
-                        c += 1;
-                        ans = max(ans, len - c);
-                        c = 0;
-                        k = i - 1;
-                        while(k >= 0 && arr[k] > 0) {
-                            c += 1;
-                            k -= 1;
-                        }
-                        c += 1;
-                        ans = max(ans, len - c);
-                    }
-                    else {
-                        ans = max(ans, len);
-                    }
+                if(neg % 2) {
+                    ans = max(ans, pos + neg - (first_neg +1 - j));
+                    ans = max(ans, pos + neg - (i - last_neg));
+                }
+                else {
+                    ans = max(ans, pos + neg);
                 }
                 i += 1;
            }
