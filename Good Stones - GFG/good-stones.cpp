@@ -9,7 +9,6 @@ using namespace std;
 class Solution{
 public:
     int goodStones(int n,vector<int> &A){
-        int ans = 0;
         vector <int> vis(n);
         set <int> good;
         for(int i = 0; i < n; i++) {
@@ -24,14 +23,13 @@ public:
                     s.insert(j);
                 }
                 if(j + A[j] >= n || j + A[j] < 0 || good.find(j + A[j]) != good.end()) {
-                    ans += s.size();
                     for(auto &k : s) {
                         good.insert(k);
                     }
                 }
             }
         }
-        return ans;
+        return good.size();
     }  
 };
 
