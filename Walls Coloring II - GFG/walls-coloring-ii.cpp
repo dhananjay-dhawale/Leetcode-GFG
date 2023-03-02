@@ -13,6 +13,10 @@ public:
     int minCost(vector<vector<int>> &C) {
         int n = C.size(), k = C[0].size();
         
+        if(k == 1) {
+            return n == 1 ? C[0][0] : -1;
+        }
+        
         auto f = [&](int i) -> std::tuple<int, int, int, int> {
             int mn1 = 1e9, mn2 = 1e9, i1 = -1, i2 = -1;
             for(int j = 0; j < k; j++) {
@@ -29,10 +33,6 @@ public:
             }
             return tie(mn1, i1, mn2, i2);
         };
-        
-        if(k == 1) {
-            return n == 1 ? C[0][0] : -1;
-        }
         
         for(int i = 1; i < n; i++) {
             auto result = f(i - 1);
