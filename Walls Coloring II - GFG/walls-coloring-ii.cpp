@@ -17,31 +17,26 @@ public:
             return n == 1 ? C[0][0] : -1;
         }
         
-        auto f = [&](int i) -> std::tuple<int, int, int, int> {
-            int mn1 = 1e9, mn2 = 1e9, i1 = -1, i2 = -1;
+        auto f = [&](int i) -> vector<int> {
+            int mn1 = 1e9, mn2 = 1e9, idx = -1;
             for(int j = 0; j < k; j++) {
                 if(C[i][j] < mn1) {
-                    i2 = i1;
                     mn2 = mn1;
-                    i1 = j;
+                    idx = j;
                     mn1 = C[i][j];
                 }
                 else if(C[i][j] < mn2) {
-                    i2 = j;
                     mn2 = C[i][j];
                 }
             }
-            return tie(mn1, i1, mn2, i2);
+            return {mn1, mn2, idx};
         };
         
         for(int i = 1; i < n; i++) {
-            auto result = f(i - 1);
-            int mn1 = get<0>(result);
-            int i1  = get<1>(result);
-            int mn2 = get<2>(result);
-            int i2  = get<3>(result);
+            vector <int> v = f(i - 1);
+            int mn1 = v[0], mn2 = v[1], idx = v[2];
             for(int j = 0; j < k; j++) {
-                C[i][j] += j == i1 ? mn2 : mn1;
+                C[i][j] += j == idx ? mn2 : mn1;
             }
         }
         
