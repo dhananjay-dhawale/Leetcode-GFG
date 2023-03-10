@@ -4,6 +4,7 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     vector<int> solveQueries(int N, int num, vector<int> &A, vector<vector<int>> &Q) {
@@ -19,10 +20,7 @@ class Solution {
         }
         vector <int> ans(n);
         for(int i = 0; i < n; i++) {
-            int l = Q[i][0];
-            int r = Q[i][1];
-            int k = Q[i][2];
-            ans[i] = pref[l][k] - pref[r + 1][k];
+            ans[i] = pref[Q[i][0]][Q[i][2]] - pref[Q[i][1] + 1][Q[i][2]];
         }
         return ans;
     }
