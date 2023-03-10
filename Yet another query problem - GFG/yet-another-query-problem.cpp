@@ -9,20 +9,12 @@ class Solution {
     vector<int> solveQueries(int N, int num, vector<int> &A, vector<vector<int>> &Q) {
         int n = Q.size(), m = A.size();
         map <int, int> mp;
-        vector <int> freq(m);
-        for(int i = 0; i < m; i++) {
+        vector <vector <int>> pref(m + 1, vector <int> (m + 1));
+        for(int i = m - 1; i >= 0; i--) {
             mp[A[i]] += 1;
-        }
-        for(int i = 0; i < m; i++) {
-            freq[i] = mp[A[i]];
-            mp[A[i]] -= 1;
-        }
-        vector <vector <int>> pref(m, vector <int> (m + 1));
-        pref[0][freq[0]] += 1;
-        for(int i = 1; i < m; i++) {
-            pref[i][freq[i]] += 1;
+            pref[i][mp[A[i]]] += 1;
             for(int j = 0; j <= m; j++) {
-                pref[i][j] += pref[i - 1][j];
+                pref[i][j] += pref[i + 1][j];
             }
         }
         vector <int> ans(n);
@@ -30,7 +22,7 @@ class Solution {
             int l = Q[i][0];
             int r = Q[i][1];
             int k = Q[i][2];
-            ans[i] = pref[r][k] - (l == 0 ? 0 : pref[l - 1][k]);
+            ans[i] = pref[l][k] - pref[r + 1][k];
         }
         return ans;
     }
