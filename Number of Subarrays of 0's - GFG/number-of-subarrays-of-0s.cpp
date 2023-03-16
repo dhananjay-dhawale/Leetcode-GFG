@@ -17,6 +17,7 @@ long long int no_of_subarrays(int n, vector<int> &arr, long s = 0, long c = 0) {
     return s;
 }
 
+
 //{ Driver Code Starts.
 
 int main() {
